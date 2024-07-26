@@ -25,7 +25,7 @@ object Config {
 
 class RetroKeyboard() {
     private val row1 = listOf(
-        Key(symbol = '1', chars = listOf('ć')),
+        Key(symbol = '1', chars = listOf('@')),
         Key(symbol = '2', chars = listOf('a','b','c')),
         Key(symbol = '3', chars = listOf('d','e','f')),
     )
@@ -40,9 +40,9 @@ class RetroKeyboard() {
         Key(symbol = '9', chars = listOf('w','x','y','z')),
     )
     private val row4 = listOf(
-        Key(symbol = ' ', chars = listOf('*')),
-        Key(symbol = '0', chars = listOf(',')),
-        Key(symbol = ' ', chars = listOf('#')),
+        Key(symbol = '*', chars = listOf('*','+','-')),
+        Key(symbol = '0', chars = listOf(' ')),
+        Key(symbol = '#', chars = listOf('#')),
     )
 
     fun getChars(): Map<Int, List<Key>> {
@@ -55,7 +55,8 @@ class RetroKeyboard() {
         else {
             val index = chars.indexOf(char) + 1
             val nextIndex = index.coerceIn(0, chars.size)
-            chars.getOrNull(nextIndex) ?: chars.first()
+            //after last char display symbol, then go to first char
+            return if (nextIndex == chars.size) key.symbol else chars.getOrNull(nextIndex) ?: chars.first()
         }
     }
 }

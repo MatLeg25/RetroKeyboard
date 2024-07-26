@@ -106,7 +106,10 @@ fun Key(
         }
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally){
-            Text(text = key.symbol.toString())
+            Text(
+                text = key.symbol.toString(),
+                color = if (selectedChar == key.symbol) Color.Blue else Color.White
+            )
             Chars(chars = key.chars, selectedChar = selectedChar)
         }
     }
