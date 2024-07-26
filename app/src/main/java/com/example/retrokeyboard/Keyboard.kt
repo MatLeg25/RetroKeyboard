@@ -1,6 +1,5 @@
 package com.example.retrokeyboard
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,11 +12,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,16 +23,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeoutOrNull
 
 @Composable
 fun CustomKeyboard(modifier: Modifier = Modifier) {
-    val keybaord = RetroKeyboard()
+
+    val keyboard by remember {
+        mutableStateOf(RetroKeyboard())
+    }
 
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
@@ -44,6 +43,13 @@ fun CustomKeyboard(modifier: Modifier = Modifier) {
 
     var text by remember { mutableStateOf("") }
     var selectedChar: Char? by remember { mutableStateOf(null) }
+    
+    val label = when (keyboard.mode) {
+        KeyboardMode.SENTENCE_CASE -> Config.KEYBOARD_TEXT_MODE_LABEL.capitalize(Locale.current)
+        KeyboardMode.LOWERCASE -> Config.KEYBOARD_TEXT_MODE_LABEL.lowercase()
+        KeyboardMode.UPPERCASE -> Config.KEYBOARD_TEXT_MODE_LABEL.uppercase()
+        KeyboardMode.NUMBER -> Config.KEYBOARD_NUM_MODE_LABEL
+    }
 
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -54,10 +60,10 @@ fun CustomKeyboard(modifier: Modifier = Modifier) {
             TextField(
                 value = text,
                 onValueChange = { text = it },
-                label = { Text("Label") }
+                label = { Text(label) }
             )
             Column(Modifier.fillMaxWidth()) {
-                keybaord.getChars().forEach { (_, key) ->
+                keyboard.getChars().forEach { (_, key) ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -71,7 +77,7 @@ fun CustomKeyboard(modifier: Modifier = Modifier) {
                                 key = it,
                                 selectedChar = selectedChar
                             ) {
-                                selectedChar = keybaord.getNextChar(it, selectedChar)
+                                selectedChar = keyboard.getNextChar(it, selectedChar)
                                 delay(Config.INPUT_ACTIVE_MS)
                                 if (selectedChar != null) {
                                     text += selectedChar
