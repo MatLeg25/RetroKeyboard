@@ -3,6 +3,7 @@ package com.example.retrokeyboard
 object Config {
 
     val COLUMNS_NUMBER = 3
+    val INPUT_ACTIVE_MS = 1000L
 
     val KEYS = mapOf(
         1 to listOf('x'),

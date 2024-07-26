@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 
@@ -41,11 +42,8 @@ fun CustomKeyboard(modifier: Modifier = Modifier) {
     val screenWidthDp = configuration.screenWidthDp.dp
     val keyWidthDp = screenWidthDp / 3
 
-    val coroutineScope = rememberCoroutineScope()
-    
-    var text by remember { mutableStateOf("Hello-") }
+    var text by remember { mutableStateOf("") }
     var selectedChar: Char? by remember { mutableStateOf(null) }
-    var typingChar: Char? by remember { mutableStateOf(null) }
 
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -58,7 +56,6 @@ fun CustomKeyboard(modifier: Modifier = Modifier) {
                 onValueChange = { text = it },
                 label = { Text("Label") }
             )
-            ///////////////
             Column(Modifier.fillMaxWidth()) {
                 keybaord.getChars().forEach { (_, key) ->
                     Row(
@@ -75,10 +72,11 @@ fun CustomKeyboard(modifier: Modifier = Modifier) {
                                 selectedChar = selectedChar
                             ) {
                                 selectedChar = keybaord.getNextChar(it, selectedChar)
-
-
-
-
+                                delay(Config.INPUT_ACTIVE_MS)
+                                if (selectedChar != null) {
+                                    text += selectedChar
+                                    selectedChar = null
+                                }
                             }
                         }
                     }
@@ -96,9 +94,17 @@ fun Key(
     modifier: Modifier = Modifier,
     key: Key = Key('2', listOf('a','b','c')),
     selectedChar: Char? = 'c',
-    onClick: () -> Unit = {},
+    onClick: suspend () -> Unit = {},
 ) {
-    Button(modifier = modifier, onClick = { onClick() }) {
+    val scope = rememberCoroutineScope()
+    Button(
+        modifier = modifier,
+        onClick = {
+            scope.launch {
+                onClick()
+            }
+        }
+    ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally){
             Text(text = key.symbol.toString())
             Chars(chars = key.chars, selectedChar = selectedChar)
