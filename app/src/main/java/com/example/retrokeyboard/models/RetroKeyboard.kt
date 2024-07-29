@@ -1,10 +1,11 @@
 package com.example.retrokeyboard.models
 
+import com.example.retrokeyboard.KeyboardContract
 import com.example.retrokeyboard.enums.KeyboardMode
 
-class RetroKeyboard() {
+class RetroKeyboard(): KeyboardContract {
 
-     var mode: KeyboardMode = KeyboardMode.LOWERCASE
+     override var mode: KeyboardMode = KeyboardMode.LOWERCASE
          private set
 
     private val row1 = listOf(
@@ -28,11 +29,11 @@ class RetroKeyboard() {
         Key(symbol = '#', chars = listOf('#')),
     )
 
-    fun getChars(): Map<Int, List<Key>> {
+    override fun getChars(): Map<Int, List<Key>> {
         return mapOf(1 to row1, 2 to row2, 3 to row3, 4 to row4)
     }
 
-    fun getNextChar(key: Key, char: Char?, onModeChanged: (keyboardMode: KeyboardMode) -> Unit): Char? {
+    override fun getNextChar(key: Key, char: Char?, onModeChanged: (keyboardMode: KeyboardMode) -> Unit): Char? {
         if (key.symbol == '#') {
             setNextMode()
             onModeChanged(mode)
@@ -60,9 +61,7 @@ class RetroKeyboard() {
     }
 
     private fun setNextMode() {
-        print(">>>>>>>>> current $mode")
         mode = KeyboardMode.getNextMode(mode.value)
-        print("--next $mode")
     }
 
 }

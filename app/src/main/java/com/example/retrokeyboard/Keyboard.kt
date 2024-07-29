@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun CustomKeyboard(
     modifier: Modifier = Modifier,
-    keyboard: RetroKeyboard = RetroKeyboard()
+    keyboard: KeyboardContract = RetroKeyboard()
 ) {
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
@@ -80,7 +80,6 @@ fun CustomKeyboard(
                                 selectedChar = selectedChar
                             ) {
                                 selectedChar = keyboard.getNextChar(it, selectedChar) { kMode ->
-                                    println(">>>>>>>>>>>> kMOde = $kMode")
                                     keyboardMode = kMode
                                 }
                                 delay(Config.INPUT_ACTIVE_MS)
