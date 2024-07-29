@@ -28,6 +28,7 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.retrokeyboard.enums.KeyboardMode
+import com.example.retrokeyboard.extensions.formatText
 import com.example.retrokeyboard.models.Key
 import com.example.retrokeyboard.models.RetroKeyboard
 import kotlinx.coroutines.delay
@@ -77,7 +78,8 @@ fun CustomKeyboard(
                             Key(
                                 modifier = Modifier.width(keyWidthDp),
                                 key = it,
-                                selectedChar = selectedChar
+                                selectedChar = selectedChar,
+                                keyboardMode = keyboardMode
                             ) {
                                 selectedChar = keyboard.getNextChar(it, selectedChar) { kMode ->
                                     keyboardMode = kMode
@@ -104,7 +106,8 @@ fun Key(
     modifier: Modifier = Modifier,
     key: Key = Key('2', listOf('a','b','c')),
     selectedChar: Char? = 'c',
-    onClick: suspend () -> Unit = {},
+    keyboardMode: KeyboardMode = KeyboardMode.SENTENCE_CASE,
+    onClick: suspend () -> Unit = {}
 ) {
     val scope = rememberCoroutineScope()
     Button(
@@ -120,25 +123,30 @@ fun Key(
                 text = key.symbol.toString(),
                 color = if (selectedChar == key.symbol) Color.Blue else Color.White
             )
-            Chars(chars = key.chars, selectedChar = selectedChar)
+            Chars(chars = key.chars, selectedChar = selectedChar, keyboardMode = keyboardMode)
         }
     }
 }
 
 @Composable
-fun Chars(modifier: Modifier = Modifier, chars: List<Char>, selectedChar: Char?) {
-    if (selectedChar !in chars) Text(text = chars.joinToString())
+fun Chars(
+    modifier: Modifier = Modifier,
+    chars: List<Char>,
+    selectedChar: Char?,
+    keyboardMode: KeyboardMode
+) {
+    if (selectedChar !in chars) Text(text = chars.joinToString().formatText(keyboardMode))
     else {
         val selectedCharIndex = chars.indexOf(selectedChar)
         val beforeSelected = chars.subList(0, selectedCharIndex)
         val afterSelected = chars.subList(selectedCharIndex+1, chars.size)
         Row {
-            Text(text = beforeSelected.joinToString(""))
+            Text(text = beforeSelected.joinToString("").formatText(keyboardMode))
             Text(
-                text = selectedChar.toString(),
+                text = selectedChar.toString().formatText(keyboardMode),
                 color = Color.Blue
             )
-            Text(text = afterSelected.joinToString())
+            Text(text = afterSelected.joinToString("").formatText(keyboardMode))
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.retrokeyboard.models
 
 import com.example.retrokeyboard.KeyboardContract
 import com.example.retrokeyboard.enums.KeyboardMode
+import com.example.retrokeyboard.extensions.toSentenceCase
 
 class RetroKeyboard(): KeyboardContract {
 
