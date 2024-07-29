@@ -27,24 +27,25 @@ import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.retrokeyboard.enums.KeyboardMode
+import com.example.retrokeyboard.models.Key
+import com.example.retrokeyboard.models.RetroKeyboard
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun CustomKeyboard(modifier: Modifier = Modifier) {
 
-    val keyboard by remember {
-        mutableStateOf(RetroKeyboard())
-    }
-
+    val keyboard = RetroKeyboard()
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
     val keyWidthDp = screenWidthDp / 3
 
     var text by remember { mutableStateOf("") }
     var selectedChar: Char? by remember { mutableStateOf(null) }
+    var keyboardMode by remember { mutableStateOf(keyboard.mode) }
     
-    val label = when (keyboard.mode) {
+    val label = when (keyboardMode) {
         KeyboardMode.SENTENCE_CASE -> Config.KEYBOARD_TEXT_MODE_LABEL.capitalize(Locale.current)
         KeyboardMode.LOWERCASE -> Config.KEYBOARD_TEXT_MODE_LABEL.lowercase()
         KeyboardMode.UPPERCASE -> Config.KEYBOARD_TEXT_MODE_LABEL.uppercase()
@@ -77,7 +78,10 @@ fun CustomKeyboard(modifier: Modifier = Modifier) {
                                 key = it,
                                 selectedChar = selectedChar
                             ) {
-                                selectedChar = keyboard.getNextChar(it, selectedChar)
+                                selectedChar = keyboard.getNextChar(it, selectedChar) { kMode ->
+                                    println(">>>>>>>>>>>> kMOde = $kMode")
+                                    keyboardMode = kMode
+                                }
                                 delay(Config.INPUT_ACTIVE_MS)
                                 if (selectedChar != null) {
                                     text += selectedChar
