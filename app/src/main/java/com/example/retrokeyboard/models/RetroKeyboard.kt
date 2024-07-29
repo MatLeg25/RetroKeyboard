@@ -60,7 +60,9 @@ class RetroKeyboard() {
     }
 
     private fun setNextMode() {
+        print(">>>>>>>>> current $mode")
         mode = KeyboardMode.getNextMode(mode.value)
+        print("--next $mode")
     }
 
 }

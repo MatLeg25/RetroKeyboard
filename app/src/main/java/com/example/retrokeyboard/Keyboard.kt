@@ -34,9 +34,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun CustomKeyboard(modifier: Modifier = Modifier) {
-
-    val keyboard = RetroKeyboard()
+fun CustomKeyboard(
+    modifier: Modifier = Modifier,
+    keyboard: RetroKeyboard = RetroKeyboard()
+) {
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
     val keyWidthDp = screenWidthDp / 3
