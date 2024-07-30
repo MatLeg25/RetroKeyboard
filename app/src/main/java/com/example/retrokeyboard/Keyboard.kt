@@ -171,7 +171,6 @@ fun ButtonLongClick(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val viewConfiguration = LocalViewConfiguration.current
-    val scope = rememberCoroutineScope()
 
     LaunchedEffect(interactionSource) {
         var isLongClick = false
@@ -186,9 +185,7 @@ fun ButtonLongClick(
                 }
                 is PressInteraction.Release -> {
                     if (isLongClick.not()) {
-                        scope.launch {
-                            onClick()
-                        }
+                        onClick()
                     }
                 }
             }
