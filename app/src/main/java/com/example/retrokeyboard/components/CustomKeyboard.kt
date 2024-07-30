@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.substring
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.retrokeyboard.Config
@@ -73,6 +74,21 @@ fun CustomKeyboard(
                 onValueChange = { text = it },
                 label = { Text(label) }
             )
+            Row {
+                Button(onClick = {
+                    if (text.isNotEmpty()) {
+                        text = text.substring(0, text.length - 1)
+                    }
+                }) {
+                    Text(text = "C")
+                }
+                Button(onClick = { /*TODO*/ }) {
+                    Text(text = "<")
+                }
+                Button(onClick = { /*TODO*/ }) {
+                    Text(text = ">")
+                }
+            }
             Column(Modifier.fillMaxWidth()) {
                 keyboard.getChars().forEach { (_, key) ->
                     Row(
