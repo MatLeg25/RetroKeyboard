@@ -53,8 +53,7 @@ fun CustomKeyboard(
         KeyboardMode.NUMBER -> Config.KEYBOARD_NUM_MODE_LABEL
     }
 
-    fun updateSelectedChar(char: Char?) {
-        selectedChar = char
+    fun updateSelectedChar() {
         if (selectedChar != null) {
             if (text.isEmpty()) {
                 text = selectedChar.toString()
@@ -116,14 +115,15 @@ fun CustomKeyboard(
                                 selectedChar = selectedChar,
                                 keyboardMode = keyboardMode,
                                 onClick = {
-                                    val char = keyboard.getNextChar(it, selectedChar) { kMode ->
+                                    selectedChar = keyboard.getNextChar(it, selectedChar) { kMode ->
                                         keyboardMode = kMode
                                     }
                                     delay(Config.INPUT_ACTIVE_MS)
-                                    updateSelectedChar(char)
+                                    updateSelectedChar()
                                 },
                                 onLongClick = {
-                                    updateSelectedChar(char = keyboard.getNumber(it))
+                                    selectedChar = keyboard.getNumber(it)
+                                    updateSelectedChar()
                                 }
                             )
                         }
