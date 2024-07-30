@@ -1,4 +1,4 @@
-package com.example.retrokeyboard
+package com.example.retrokeyboard.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -33,6 +33,8 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.retrokeyboard.Config
+import com.example.retrokeyboard.KeyboardContract
 import com.example.retrokeyboard.enums.KeyboardMode
 import com.example.retrokeyboard.extensions.formatText
 import com.example.retrokeyboard.models.Key
@@ -112,107 +114,4 @@ fun CustomKeyboard(
 
     }
 
-}
-
-@Composable
-@Preview
-fun Key(
-    modifier: Modifier = Modifier,
-    key: Key = Key('2', listOf('a','b','c')),
-    selectedChar: Char? = 'c',
-    keyboardMode: KeyboardMode = KeyboardMode.SENTENCE_CASE,
-    onClick: suspend () -> Unit = {},
-    onLongClick: suspend () -> Unit = {}
-) {
-    ButtonLongClick(
-        modifier = modifier,
-        onClick = { onClick() },
-        onLongClick = { onLongClick() },
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally){
-            Text(
-                text = key.symbol.toString(),
-                color =
-                if (selectedChar == key.symbol) MaterialTheme.colorScheme.onPrimary
-                else MaterialTheme.colorScheme.inversePrimary,
-                )
-            Chars(chars = key.chars, selectedChar = selectedChar, keyboardMode = keyboardMode)
-        }
-    }
-}
-
-@Composable
-fun Chars(
-    modifier: Modifier = Modifier,
-    chars: List<Char>,
-    selectedChar: Char?,
-    keyboardMode: KeyboardMode
-) {
-    if (selectedChar !in chars) {
-        KeyChars(text = chars, keyboardMode = keyboardMode, isSelected = false)
-    } else {
-        val selectedCharIndex = chars.indexOf(selectedChar)
-        val beforeSelected = chars.subList(0, selectedCharIndex)
-        val afterSelected = chars.subList(selectedCharIndex+1, chars.size)
-        Row {
-            KeyChars(text = beforeSelected, keyboardMode = keyboardMode, isSelected = false)
-            if (selectedChar != null) {
-                KeyChars(text = listOf(selectedChar), keyboardMode = keyboardMode, isSelected = true)
-            }
-            KeyChars(text = afterSelected, keyboardMode = keyboardMode, isSelected = false)
-        }
-    }
-}
-
-@Composable
-fun ButtonLongClick(
-    modifier: Modifier = Modifier,
-    onClick: suspend () -> Unit = {},
-    onLongClick: suspend () -> Unit = {},
-    content: @Composable RowScope.() -> Unit
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val viewConfiguration = LocalViewConfiguration.current
-
-    LaunchedEffect(interactionSource) {
-        var isLongClick = false
-
-        interactionSource.interactions.collectLatest { interaction ->
-            when (interaction) {
-                is PressInteraction.Press -> {
-                    isLongClick = false
-                    delay(viewConfiguration.longPressTimeoutMillis)
-                    isLongClick = true
-                    onLongClick()
-                }
-                is PressInteraction.Release -> {
-                    if (isLongClick.not()) {
-                        onClick()
-                    }
-                }
-            }
-        }
-    }
-
-    Button(
-        modifier = modifier,
-        onClick = {},
-        interactionSource = interactionSource
-    ) {
-        content()
-    }
-}
-
-@Composable
-fun KeyChars(
-    text: List<Char>,
-    keyboardMode: KeyboardMode,
-    isSelected: Boolean = false
-) {
-    Text(
-        text = text.joinToString("").formatText(keyboardMode),
-        color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.inversePrimary,
-        maxLines = 1,
-        overflow = TextOverflow.Clip
-    )
 }
