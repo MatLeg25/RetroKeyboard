@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -21,7 +22,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.retrokeyboard.enums.KeyboardMode
@@ -38,7 +39,6 @@ import com.example.retrokeyboard.models.Key
 import com.example.retrokeyboard.models.RetroKeyboard
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @Composable
 fun CustomKeyboard(
@@ -132,8 +132,10 @@ fun Key(
         Column(horizontalAlignment = Alignment.CenterHorizontally){
             Text(
                 text = key.symbol.toString(),
-                color = if (selectedChar == key.symbol) Color.Blue else Color.White
-            )
+                color =
+                if (selectedChar == key.symbol) MaterialTheme.colorScheme.onPrimary
+                else MaterialTheme.colorScheme.inversePrimary,
+                )
             Chars(chars = key.chars, selectedChar = selectedChar, keyboardMode = keyboardMode)
         }
     }
@@ -146,18 +148,18 @@ fun Chars(
     selectedChar: Char?,
     keyboardMode: KeyboardMode
 ) {
-    if (selectedChar !in chars) Text(text = chars.joinToString("").formatText(keyboardMode))
-    else {
+    if (selectedChar !in chars) {
+        KeyChars(text = chars, keyboardMode = keyboardMode, isSelected = false)
+    } else {
         val selectedCharIndex = chars.indexOf(selectedChar)
         val beforeSelected = chars.subList(0, selectedCharIndex)
         val afterSelected = chars.subList(selectedCharIndex+1, chars.size)
         Row {
-            Text(text = beforeSelected.joinToString("").formatText(keyboardMode))
-            Text(
-                text = selectedChar.toString().formatText(keyboardMode),
-                color = Color.Blue
-            )
-            Text(text = afterSelected.joinToString("").formatText(keyboardMode))
+            KeyChars(text = beforeSelected, keyboardMode = keyboardMode, isSelected = false)
+            if (selectedChar != null) {
+                KeyChars(text = listOf(selectedChar), keyboardMode = keyboardMode, isSelected = true)
+            }
+            KeyChars(text = afterSelected, keyboardMode = keyboardMode, isSelected = false)
         }
     }
 }
@@ -193,9 +195,24 @@ fun ButtonLongClick(
     }
 
     Button(
+        modifier = modifier,
         onClick = {},
         interactionSource = interactionSource
     ) {
         content()
     }
+}
+
+@Composable
+fun KeyChars(
+    text: List<Char>,
+    keyboardMode: KeyboardMode,
+    isSelected: Boolean = false
+) {
+    Text(
+        text = text.joinToString("").formatText(keyboardMode),
+        color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.inversePrimary,
+        maxLines = 1,
+        overflow = TextOverflow.Clip
+    )
 }

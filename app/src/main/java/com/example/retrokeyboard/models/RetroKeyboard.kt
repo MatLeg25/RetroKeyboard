@@ -1,5 +1,6 @@
 package com.example.retrokeyboard.models
 
+import com.example.retrokeyboard.Config
 import com.example.retrokeyboard.KeyboardContract
 import com.example.retrokeyboard.enums.KeyboardMode
 import com.example.retrokeyboard.extensions.toSentenceCase
@@ -8,6 +9,12 @@ class RetroKeyboard(): KeyboardContract {
 
      override var mode: KeyboardMode = KeyboardMode.LOWERCASE
          private set
+
+    private val SPECIAL_CHARACTERS = listOf(
+        '*', '+', '-', '/', '=', '#', '%', '&', '(', ')', '<', '>', '@', '_', '£', '$', '¥',
+        '!', '"', '\'', ':', ';', '?', ',', '.', '§', '¿', '¡', '[', ']', '{', '}', '\\', '|',
+        '^', '~', '`'
+    )
 
     private val row1 = listOf(
         Key(symbol = '1', chars = listOf('@')),
@@ -25,7 +32,7 @@ class RetroKeyboard(): KeyboardContract {
         Key(symbol = '9', chars = listOf('w','x','y','z')),
     )
     private val row4 = listOf(
-        Key(symbol = '*', chars = listOf('*','+','-')),
+        Key(symbol = '*', chars = SPECIAL_CHARACTERS),
         Key(symbol = '0', chars = listOf(' ')),
         Key(symbol = '#', chars = listOf('#')),
     )
