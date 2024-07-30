@@ -1,9 +1,6 @@
 package com.example.retrokeyboard
 
-import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
@@ -30,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
@@ -173,7 +169,6 @@ fun ButtonLongClick(
     onLongClick: suspend () -> Unit = {},
     content: @Composable RowScope.() -> Unit
 ) {
-    val context = LocalContext.current
     val interactionSource = remember { MutableInteractionSource() }
     val viewConfiguration = LocalViewConfiguration.current
     val scope = rememberCoroutineScope()
@@ -187,13 +182,10 @@ fun ButtonLongClick(
                     isLongClick = false
                     delay(viewConfiguration.longPressTimeoutMillis)
                     isLongClick = true
-                    Toast.makeText(context, "Long click", Toast.LENGTH_SHORT).show()
                     onLongClick()
                 }
-
                 is PressInteraction.Release -> {
                     if (isLongClick.not()) {
-                        Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
                         scope.launch {
                             onClick()
                         }
