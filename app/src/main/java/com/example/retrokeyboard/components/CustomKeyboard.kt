@@ -53,6 +53,21 @@ fun CustomKeyboard(
         KeyboardMode.NUMBER -> Config.KEYBOARD_NUM_MODE_LABEL
     }
 
+    fun updateSelectedChar(char: Char?) {
+        selectedChar = char
+        if (selectedChar != null) {
+            if (text.isEmpty()) {
+                text = selectedChar.toString()
+            } else {
+                val beforeCursor = text.substring(0, cursorPosition)
+                val afterCursor = text.substring(cursorPosition, text.length)
+                text = beforeCursor + selectedChar + afterCursor
+            }
+            cursorPosition++
+            selectedChar = null
+        }
+    }
+
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.BottomCenter
@@ -101,30 +116,14 @@ fun CustomKeyboard(
                                 selectedChar = selectedChar,
                                 keyboardMode = keyboardMode,
                                 onClick = {
-                                    selectedChar = keyboard.getNextChar(it, selectedChar) { kMode ->
+                                    val char = keyboard.getNextChar(it, selectedChar) { kMode ->
                                         keyboardMode = kMode
                                     }
-
                                     delay(Config.INPUT_ACTIVE_MS)
-                                    if (selectedChar != null) {
-                                        if (text.isEmpty()) {
-                                            text = selectedChar.toString()
-                                        } else {
-                                            val beforeCursor = text.substring(0, cursorPosition)
-                                            val afterCursor = text.substring(cursorPosition, text.length)
-                                            text = beforeCursor + selectedChar + afterCursor
-                                        }
-                                        cursorPosition++
-                                        selectedChar = null
-                                    }
+                                    updateSelectedChar(char)
                                 },
                                 onLongClick = {
-                                    selectedChar = keyboard.getNumber(it)
-                                    if (selectedChar != null) {
-                                        text += selectedChar
-                                        cursorPosition = text.length + 1
-                                        selectedChar = null
-                                    }
+                                    updateSelectedChar(char = keyboard.getNumber(it))
                                 }
                             )
                         }
