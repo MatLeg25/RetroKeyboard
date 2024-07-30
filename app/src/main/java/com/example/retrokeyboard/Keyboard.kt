@@ -1,10 +1,16 @@
 package com.example.retrokeyboard
 
+import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,6 +20,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,6 +30,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +41,7 @@ import com.example.retrokeyboard.extensions.formatText
 import com.example.retrokeyboard.models.Key
 import com.example.retrokeyboard.models.RetroKeyboard
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
@@ -79,17 +89,25 @@ fun CustomKeyboard(
                                 modifier = Modifier.width(keyWidthDp),
                                 key = it,
                                 selectedChar = selectedChar,
-                                keyboardMode = keyboardMode
-                            ) {
-                                selectedChar = keyboard.getNextChar(it, selectedChar) { kMode ->
-                                    keyboardMode = kMode
+                                keyboardMode = keyboardMode,
+                                onClick = {
+                                    selectedChar = keyboard.getNextChar(it, selectedChar) { kMode ->
+                                        keyboardMode = kMode
+                                    }
+                                    delay(Config.INPUT_ACTIVE_MS)
+                                    if (selectedChar != null) {
+                                        text += selectedChar
+                                        selectedChar = null
+                                    }
+                                },
+                                onLongClick = {
+                                    selectedChar = keyboard.getNumber(it)
+                                    if (selectedChar != null) {
+                                        text += selectedChar
+                                        selectedChar = null
+                                    }
                                 }
-                                delay(Config.INPUT_ACTIVE_MS)
-                                if (selectedChar != null) {
-                                    text += selectedChar
-                                    selectedChar = null
-                                }
-                            }
+                            )
                         }
                     }
                 }
@@ -107,16 +125,13 @@ fun Key(
     key: Key = Key('2', listOf('a','b','c')),
     selectedChar: Char? = 'c',
     keyboardMode: KeyboardMode = KeyboardMode.SENTENCE_CASE,
-    onClick: suspend () -> Unit = {}
+    onClick: suspend () -> Unit = {},
+    onLongClick: suspend () -> Unit = {}
 ) {
-    val scope = rememberCoroutineScope()
-    Button(
+    ButtonLongClick(
         modifier = modifier,
-        onClick = {
-            scope.launch {
-                onClick()
-            }
-        }
+        onClick = { onClick() },
+        onLongClick = { onLongClick() },
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally){
             Text(
@@ -135,7 +150,7 @@ fun Chars(
     selectedChar: Char?,
     keyboardMode: KeyboardMode
 ) {
-    if (selectedChar !in chars) Text(text = chars.joinToString().formatText(keyboardMode))
+    if (selectedChar !in chars) Text(text = chars.joinToString("").formatText(keyboardMode))
     else {
         val selectedCharIndex = chars.indexOf(selectedChar)
         val beforeSelected = chars.subList(0, selectedCharIndex)
@@ -148,5 +163,50 @@ fun Chars(
             )
             Text(text = afterSelected.joinToString("").formatText(keyboardMode))
         }
+    }
+}
+
+@Composable
+fun ButtonLongClick(
+    modifier: Modifier = Modifier,
+    onClick: suspend () -> Unit = {},
+    onLongClick: suspend () -> Unit = {},
+    content: @Composable RowScope.() -> Unit
+) {
+    val context = LocalContext.current
+    val interactionSource = remember { MutableInteractionSource() }
+    val viewConfiguration = LocalViewConfiguration.current
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(interactionSource) {
+        var isLongClick = false
+
+        interactionSource.interactions.collectLatest { interaction ->
+            when (interaction) {
+                is PressInteraction.Press -> {
+                    isLongClick = false
+                    delay(viewConfiguration.longPressTimeoutMillis)
+                    isLongClick = true
+                    Toast.makeText(context, "Long click", Toast.LENGTH_SHORT).show()
+                    onLongClick()
+                }
+
+                is PressInteraction.Release -> {
+                    if (isLongClick.not()) {
+                        Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
+                        scope.launch {
+                            onClick()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Button(
+        onClick = {},
+        interactionSource = interactionSource
+    ) {
+        content()
     }
 }

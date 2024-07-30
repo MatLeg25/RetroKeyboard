@@ -52,6 +52,10 @@ class RetroKeyboard(): KeyboardContract {
         return setCharCase(nextChar)
     }
 
+    override fun getNumber(key: Key): Char? {
+        return key.symbol.takeIf { it.digitToIntOrNull() != null }
+    }
+
     private fun setCharCase(char: Char): Char {
         return when(mode) {
             KeyboardMode.SENTENCE_CASE -> char.titlecaseChar()
