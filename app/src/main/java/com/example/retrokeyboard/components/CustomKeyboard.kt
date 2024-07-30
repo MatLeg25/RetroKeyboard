@@ -1,25 +1,21 @@
 package com.example.retrokeyboard.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,21 +23,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.substring
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.retrokeyboard.Config
 import com.example.retrokeyboard.KeyboardContract
 import com.example.retrokeyboard.enums.KeyboardMode
-import com.example.retrokeyboard.extensions.formatText
-import com.example.retrokeyboard.models.Key
 import com.example.retrokeyboard.models.RetroKeyboard
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun CustomKeyboard(
@@ -55,7 +44,8 @@ fun CustomKeyboard(
     var text by remember { mutableStateOf("") }
     var selectedChar: Char? by remember { mutableStateOf(null) }
     var keyboardMode by remember { mutableStateOf(keyboard.mode) }
-    
+    var cursorPosition by remember { mutableIntStateOf(text.length) }
+
     val label = when (keyboardMode) {
         KeyboardMode.SENTENCE_CASE -> Config.KEYBOARD_TEXT_MODE_LABEL.capitalize(Locale.current)
         KeyboardMode.LOWERCASE -> Config.KEYBOARD_TEXT_MODE_LABEL.lowercase()
@@ -72,20 +62,26 @@ fun CustomKeyboard(
             TextField(
                 value = text,
                 onValueChange = { text = it },
-                label = { Text(label) }
+                label = { Text(label) },
+                enabled = false
             )
             Row {
                 Button(onClick = {
                     if (text.isNotEmpty()) {
                         text = text.substring(0, text.length - 1)
+                        cursorPosition = (cursorPosition-1).coerceIn(0, text.length)
                     }
                 }) {
                     Text(text = "C")
                 }
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = {
+                    cursorPosition = (cursorPosition-1).coerceIn(0, text.length)
+                }) {
                     Text(text = "<")
                 }
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = {
+                    cursorPosition = (cursorPosition+1).coerceIn(0, text.length)
+                }) {
                     Text(text = ">")
                 }
             }
@@ -108,9 +104,17 @@ fun CustomKeyboard(
                                     selectedChar = keyboard.getNextChar(it, selectedChar) { kMode ->
                                         keyboardMode = kMode
                                     }
+
                                     delay(Config.INPUT_ACTIVE_MS)
                                     if (selectedChar != null) {
-                                        text += selectedChar
+                                        if (text.isEmpty()) {
+                                            text = selectedChar.toString()
+                                        } else {
+                                            val beforeCursor = text.substring(0, cursorPosition)
+                                            val afterCursor = text.substring(cursorPosition, text.length)
+                                            text = beforeCursor + selectedChar + afterCursor
+                                        }
+                                        cursorPosition++
                                         selectedChar = null
                                     }
                                 },
@@ -118,6 +122,7 @@ fun CustomKeyboard(
                                     selectedChar = keyboard.getNumber(it)
                                     if (selectedChar != null) {
                                         text += selectedChar
+                                        cursorPosition = text.length + 1
                                         selectedChar = null
                                     }
                                 }
