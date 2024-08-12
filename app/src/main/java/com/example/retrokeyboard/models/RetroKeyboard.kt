@@ -63,6 +63,14 @@ class RetroKeyboard(): KeyboardContract {
         return key.symbol.takeIf { it.digitToIntOrNull() != null }
     }
 
+    override fun getFormattedSymbol(key: Key): Char {
+        return setCharCase(key.symbol)
+    }
+
+    override fun getFormattedChars(key: Key): List<Char> {
+        return key.chars.map { setCharCase(it) }
+    }
+
     private fun setCharCase(char: Char): Char {
         return when(mode) {
             KeyboardMode.SENTENCE_CASE -> char.titlecaseChar()

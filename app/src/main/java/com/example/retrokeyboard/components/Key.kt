@@ -11,13 +11,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.retrokeyboard.enums.KeyboardMode
 import com.example.retrokeyboard.extensions.formatText
-import com.example.retrokeyboard.models.Key
 
 @Composable
 @Preview
 fun Key(
     modifier: Modifier = Modifier,
-    key: Key = Key('2', listOf('a','b','c')),
+    symbol: Char = 'a',
+    chars: List<Char> = listOf('a','b','c'),
     selectedChar: Char? = 'c',
     keyboardMode: KeyboardMode = KeyboardMode.SENTENCE_CASE,
     onClick: suspend () -> Unit = {},
@@ -30,12 +30,12 @@ fun Key(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally){
             Text(
-                text = key.symbol.toString(),
+                text = symbol.toString(),
                 color =
-                    if (selectedChar == key.symbol) MaterialTheme.colorScheme.onPrimary
+                    if (selectedChar == symbol) MaterialTheme.colorScheme.onPrimary
                     else MaterialTheme.colorScheme.inversePrimary,
                 )
-            Chars(chars = key.chars, selectedChar = selectedChar, keyboardMode = keyboardMode)
+            Chars(chars = chars, selectedChar = selectedChar, keyboardMode = keyboardMode)
         }
     }
 }
@@ -47,26 +47,25 @@ fun Chars(
     keyboardMode: KeyboardMode
 ) {
     val maxChars = 5
+    val isCharSelected = selectedChar?.lowercaseChar() in chars.map { it.lowercaseChar() }
 
-    if (selectedChar !in chars) {
+    if (!isCharSelected) {
         KeyChars(text = chars.take(maxChars), keyboardMode = keyboardMode, isSelected = false)
     } else {
         val selectedCharIndex = chars.indexOf(selectedChar)
         val beforeSelected = chars.subList(0, selectedCharIndex)
         val afterSelected = chars.subList(selectedCharIndex+1, chars.size)
 
+        //adjust to display max 5 chars
         var beforeSelectedTake = 2
         var afterSelectedTake = 2
-
-        //adjust to display max 5 chars
-        if (selectedChar != null) {
-            if (beforeSelected.size < beforeSelectedTake) {
-                afterSelectedTake += beforeSelectedTake - beforeSelected.size
-            }
-            if (afterSelected.size < afterSelectedTake) {
-                beforeSelectedTake += afterSelectedTake - afterSelected.size
-            }
+        if (beforeSelected.size < beforeSelectedTake) {
+            afterSelectedTake += beforeSelectedTake - beforeSelected.size
         }
+        if (afterSelected.size < afterSelectedTake) {
+            beforeSelectedTake += afterSelectedTake - afterSelected.size
+        }
+
 
         Row() {
             KeyChars(text = beforeSelected.takeLast(beforeSelectedTake), keyboardMode = keyboardMode, isSelected = false)

@@ -111,7 +111,8 @@ fun CustomKeyboard(
                         key.forEach {
                             Key(
                                 modifier = Modifier.width(keyWidthDp),
-                                key = it,
+                                symbol = keyboard.getFormattedSymbol(it),
+                                chars = keyboard.getFormattedChars(it),
                                 selectedChar = selectedChar,
                                 keyboardMode = keyboardMode,
                                 onClick = {
