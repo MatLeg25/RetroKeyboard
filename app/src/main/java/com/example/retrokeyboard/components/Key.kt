@@ -32,8 +32,8 @@ fun Key(
             Text(
                 text = key.symbol.toString(),
                 color =
-                if (selectedChar == key.symbol) MaterialTheme.colorScheme.onPrimary
-                else MaterialTheme.colorScheme.inversePrimary,
+                    if (selectedChar == key.symbol) MaterialTheme.colorScheme.onPrimary
+                    else MaterialTheme.colorScheme.inversePrimary,
                 )
             Chars(chars = key.chars, selectedChar = selectedChar, keyboardMode = keyboardMode)
         }
@@ -42,23 +42,38 @@ fun Key(
 
 @Composable
 fun Chars(
-    modifier: Modifier = Modifier,
     chars: List<Char>,
     selectedChar: Char?,
     keyboardMode: KeyboardMode
 ) {
+    val maxChars = 5
+
     if (selectedChar !in chars) {
-        KeyChars(text = chars, keyboardMode = keyboardMode, isSelected = false)
+        KeyChars(text = chars.take(maxChars), keyboardMode = keyboardMode, isSelected = false)
     } else {
         val selectedCharIndex = chars.indexOf(selectedChar)
         val beforeSelected = chars.subList(0, selectedCharIndex)
         val afterSelected = chars.subList(selectedCharIndex+1, chars.size)
-        Row {
-            KeyChars(text = beforeSelected, keyboardMode = keyboardMode, isSelected = false)
+
+        var beforeSelectedTake = 2
+        var afterSelectedTake = 2
+
+        //adjust to display max 5 chars
+        if (selectedChar != null) {
+            if (beforeSelected.size < beforeSelectedTake) {
+                afterSelectedTake += beforeSelectedTake - beforeSelected.size
+            }
+            if (afterSelected.size < afterSelectedTake) {
+                beforeSelectedTake += afterSelectedTake - afterSelected.size
+            }
+        }
+
+        Row() {
+            KeyChars(text = beforeSelected.takeLast(beforeSelectedTake), keyboardMode = keyboardMode, isSelected = false)
             if (selectedChar != null) {
                 KeyChars(text = listOf(selectedChar), keyboardMode = keyboardMode, isSelected = true)
             }
-            KeyChars(text = afterSelected, keyboardMode = keyboardMode, isSelected = false)
+            KeyChars(text = afterSelected.take(afterSelectedTake), keyboardMode = keyboardMode, isSelected = false)
         }
     }
 }
