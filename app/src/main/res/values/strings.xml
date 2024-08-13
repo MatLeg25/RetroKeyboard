@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">RetroKeyboard</string>
+    <string name="move_cursor_left">Move cursor left</string>
+    <string name="move_cursor_right">Move cursor right</string>
+    <string name="backspace">Backspace</string>
 </resources>

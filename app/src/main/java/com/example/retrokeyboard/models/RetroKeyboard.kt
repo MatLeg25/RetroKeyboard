@@ -33,7 +33,7 @@ class RetroKeyboard(): KeyboardContract {
     )
     private val row4 = listOf(
         Key(symbol = '*', chars = SPECIAL_CHARACTERS),
-        Key(symbol = '0', chars = listOf(' ')),
+        Key(symbol = '0', chars = listOf('˽')),
         Key(symbol = '#', chars = listOf('#')),
     )
 

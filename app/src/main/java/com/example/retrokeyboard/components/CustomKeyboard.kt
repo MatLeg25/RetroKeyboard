@@ -10,7 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -23,11 +28,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import com.example.retrokeyboard.Config
 import com.example.retrokeyboard.KeyboardContract
+import com.example.retrokeyboard.R
 import com.example.retrokeyboard.enums.KeyboardMode
 import com.example.retrokeyboard.models.RetroKeyboard
 import kotlinx.coroutines.delay
@@ -82,23 +89,32 @@ fun CustomKeyboard(
                 enabled = false
             )
             Row {
-                Button(onClick = {
+                IconButton(onClick = {
                     if (text.isNotEmpty()) {
                         text = text.substring(0, text.length - 1)
                         cursorPosition = (cursorPosition-1).coerceIn(0, text.length)
                     }
                 }) {
-                    Text(text = "C")
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(id = R.string.backspace)
+                    )
                 }
-                Button(onClick = {
+                IconButton(onClick = {
                     cursorPosition = (cursorPosition-1).coerceIn(0, text.length)
                 }) {
-                    Text(text = "<")
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        contentDescription = stringResource(id = R.string.move_cursor_left)
+                    )
                 }
-                Button(onClick = {
+                IconButton(onClick = {
                     cursorPosition = (cursorPosition+1).coerceIn(0, text.length)
-                }) {
-                    Text(text = ">")
+                })  {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        contentDescription = stringResource(id = R.string.move_cursor_right)
+                    )
                 }
             }
             Column(Modifier.fillMaxWidth()) {
