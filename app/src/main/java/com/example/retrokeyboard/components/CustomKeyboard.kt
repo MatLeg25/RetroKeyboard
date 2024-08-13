@@ -62,6 +62,8 @@ fun CustomKeyboard(
                 val afterCursor = text.substring(cursorPosition, text.length)
                 text = beforeCursor + selectedChar + afterCursor
             }
+            keyboard.updateCharCase()
+            keyboardMode = keyboard.mode
             cursorPosition++
             selectedChar = null
         }

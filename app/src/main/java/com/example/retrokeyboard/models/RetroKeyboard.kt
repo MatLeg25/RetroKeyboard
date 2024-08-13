@@ -71,6 +71,13 @@ class RetroKeyboard(): KeyboardContract {
         return key.chars.map { setCharCase(it) }
     }
 
+    override fun updateCharCase() {
+        when(mode) {
+            KeyboardMode.SENTENCE_CASE -> setNextMode(KeyboardMode.LOWERCASE)
+            else -> return
+        }
+    }
+
     private fun setCharCase(char: Char): Char {
         return when(mode) {
             KeyboardMode.SENTENCE_CASE -> char.titlecaseChar()
@@ -80,8 +87,8 @@ class RetroKeyboard(): KeyboardContract {
         }
     }
 
-    private fun setNextMode() {
-        mode = KeyboardMode.getNextMode(mode.value)
+    private fun setNextMode(nextMode: KeyboardMode? = null) {
+        mode = nextMode ?: KeyboardMode.getNextMode(mode.value)
     }
 
 }

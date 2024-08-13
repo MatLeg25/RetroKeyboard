@@ -10,4 +10,5 @@ interface KeyboardContract {
     fun getNumber(key: Key): Char?
     fun getFormattedSymbol(key: Key): Char
     fun getFormattedChars(key: Key): List<Char>
+    fun updateCharCase()
 }
