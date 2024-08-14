@@ -25,30 +25,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             RetroKeyboardTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    CustomKeyboard(
+                        keyboard = keyboard,
                         modifier = Modifier.padding(innerPadding)
                     )
-                    CustomKeyboard(keyboard = keyboard)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RetroKeyboardTheme {
-        Greeting("Android")
-        CustomKeyboard()
     }
 }

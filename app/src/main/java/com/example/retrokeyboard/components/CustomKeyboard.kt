@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -77,18 +79,21 @@ fun CustomKeyboard(
     }
 
     Box(
-        modifier = Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.BottomCenter
+        modifier = modifier.fillMaxSize().background(Color.Red),
+        contentAlignment = Alignment.BottomEnd
     ) {
-        Column {
-            Spacer(modifier = Modifier.size(100.dp))
+        Column(verticalArrangement = Arrangement.SpaceBetween) {
             TextField(
                 value = text,
                 onValueChange = { text = it },
                 label = { Text(label) },
-                enabled = false
+                enabled = false,
+                modifier = Modifier.fillMaxWidth().weight(1f)
             )
-            Row {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
                 IconButton(onClick = {
                     if (text.isNotEmpty()) {
                         text = text.substring(0, text.length - 1)
@@ -121,7 +126,6 @@ fun CustomKeyboard(
                 keyboard.getChars().forEach { (_, key) ->
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
                             .background(Color.Green)
                             .padding(12.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
