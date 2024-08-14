@@ -34,6 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import com.example.retrokeyboard.Config
 import com.example.retrokeyboard.KeyboardContract
 import com.example.retrokeyboard.R
@@ -48,7 +49,7 @@ fun CustomKeyboard(
 ) {
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
-    val keyWidthDp = screenWidthDp / 3
+    val keyWidthDp = (screenWidthDp / 3)
 
     var text by remember { mutableStateOf("") }
     var selectedChar: Char? by remember { mutableStateOf(null) }
@@ -79,7 +80,9 @@ fun CustomKeyboard(
     }
 
     Box(
-        modifier = modifier.fillMaxSize().background(Color.Red),
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.Red),
         contentAlignment = Alignment.BottomEnd
     ) {
         Column(verticalArrangement = Arrangement.SpaceBetween) {
@@ -88,8 +91,11 @@ fun CustomKeyboard(
                 onValueChange = { text = it },
                 label = { Text(label) },
                 enabled = false,
-                modifier = Modifier.fillMaxWidth().weight(1f)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
             )
+            //Keyboard support buttons
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
@@ -122,17 +128,16 @@ fun CustomKeyboard(
                     )
                 }
             }
-            Column(Modifier.fillMaxWidth()) {
+            //Keyboard rows
+            Column() {
                 keyboard.getChars().forEach { (_, key) ->
                     Row(
-                        modifier = Modifier
-                            .background(Color.Green)
-                            .padding(12.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        modifier = Modifier.fillMaxWidth().background(Color.Green),
+                        horizontalArrangement = Arrangement.SpaceAround
                     ) {
                         key.forEach {
                             Key(
-                                modifier = Modifier.width(keyWidthDp),
+                                modifier = Modifier.width(keyWidthDp).padding(12.dp),
                                 symbol = keyboard.getFormattedSymbol(it),
                                 chars = keyboard.getFormattedChars(it),
                                 selectedChar = selectedChar,
