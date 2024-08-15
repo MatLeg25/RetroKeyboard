@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.retrokeyboard.Config
 import com.example.retrokeyboard.enums.KeyboardMode
 import com.example.retrokeyboard.extensions.formatText
 
@@ -34,6 +35,7 @@ fun Key(
                 color =
                     if (selectedChar == symbol) MaterialTheme.colorScheme.onPrimary
                     else MaterialTheme.colorScheme.inversePrimary,
+                fontFamily = Config.fontNokia3310
                 )
             Chars(chars = chars, selectedChar = selectedChar, keyboardMode = keyboardMode)
         }
@@ -86,6 +88,7 @@ fun KeyChars(
     Text(
         text = text.joinToString("").formatText(keyboardMode),
         color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.inversePrimary,
+        fontFamily = Config.fontNokia3310,
         maxLines = 1,
         overflow = TextOverflow.Clip
     )

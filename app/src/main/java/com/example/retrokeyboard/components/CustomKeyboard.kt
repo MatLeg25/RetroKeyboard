@@ -13,11 +13,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -26,11 +28,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.retrokeyboard.Config
 import com.example.retrokeyboard.KeyboardContract
 import com.example.retrokeyboard.R
@@ -81,13 +88,17 @@ fun CustomKeyboard(
     ) {
         Column(verticalArrangement = Arrangement.SpaceBetween) {
             TextField(
+                modifier = Modifier.fillMaxWidth().weight(1f),
                 value = text,
                 onValueChange = { text = it },
                 label = { Text(label) },
                 enabled = false,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
+                textStyle = TextStyle.Default.copy(fontFamily = Config.fontNokia3310, fontSize = 16.sp),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Red,
+                    unfocusedContainerColor = Color.Red,
+                    disabledContainerColor = Color.Red,
+                ),
             )
             //Keyboard support buttons
             Row(
