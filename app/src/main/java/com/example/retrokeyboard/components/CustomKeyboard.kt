@@ -5,12 +5,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -18,6 +15,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -28,13 +26,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.times
 import com.example.retrokeyboard.Config
 import com.example.retrokeyboard.KeyboardContract
 import com.example.retrokeyboard.R
@@ -80,9 +76,7 @@ fun CustomKeyboard(
     }
 
     Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Color.Red),
+        modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.onBackground),
         contentAlignment = Alignment.BottomEnd
     ) {
         Column(verticalArrangement = Arrangement.SpaceBetween) {
@@ -108,7 +102,8 @@ fun CustomKeyboard(
                 }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(id = R.string.backspace)
+                        contentDescription = stringResource(id = R.string.backspace),
+                        tint = MaterialTheme.colorScheme.background
                     )
                 }
                 IconButton(onClick = {
@@ -116,7 +111,8 @@ fun CustomKeyboard(
                 }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = stringResource(id = R.string.move_cursor_left)
+                        contentDescription = stringResource(id = R.string.move_cursor_left),
+                        tint = MaterialTheme.colorScheme.background
                     )
                 }
                 IconButton(onClick = {
@@ -124,7 +120,8 @@ fun CustomKeyboard(
                 })  {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = stringResource(id = R.string.move_cursor_right)
+                        contentDescription = stringResource(id = R.string.move_cursor_right),
+                        tint = MaterialTheme.colorScheme.background
                     )
                 }
             }
@@ -132,7 +129,7 @@ fun CustomKeyboard(
             Column() {
                 keyboard.getChars().forEach { (_, key) ->
                     Row(
-                        modifier = Modifier.fillMaxWidth().background(Color.Green),
+                        modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.secondary),
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
                         key.forEach {
