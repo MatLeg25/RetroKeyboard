@@ -43,6 +43,8 @@ import com.example.retrokeyboard.KeyboardContract
 import com.example.retrokeyboard.R
 import com.example.retrokeyboard.enums.KeyboardMode
 import com.example.retrokeyboard.models.RetroKeyboard
+import com.example.retrokeyboard.ui.theme.NokiaScreenDark
+import com.example.retrokeyboard.ui.theme.NokiaScreenLight
 import kotlinx.coroutines.delay
 
 @Composable
@@ -91,13 +93,18 @@ fun CustomKeyboard(
                 modifier = Modifier.fillMaxWidth().weight(1f),
                 value = text,
                 onValueChange = { text = it },
-                label = { Text(label) },
+                label = {
+                    Text(text = label, fontFamily = Config.fontNokia3310)
+                },
                 enabled = false,
                 textStyle = TextStyle.Default.copy(fontFamily = Config.fontNokia3310, fontSize = 16.sp),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Red,
-                    unfocusedContainerColor = Color.Red,
-                    disabledContainerColor = Color.Red,
+                    focusedTextColor = NokiaScreenDark,
+                    unfocusedTextColor = NokiaScreenDark,
+                    disabledTextColor = NokiaScreenDark,
+                    focusedContainerColor = NokiaScreenLight,
+                    unfocusedContainerColor = NokiaScreenLight,
+                    disabledContainerColor = NokiaScreenLight,
                 ),
             )
             //Keyboard support buttons

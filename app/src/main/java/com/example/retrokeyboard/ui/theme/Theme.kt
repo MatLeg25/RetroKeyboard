@@ -11,29 +11,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val LightColorScheme = lightColorScheme(
-    primary = NokiaScreenLight,
-    onPrimary = NokiaScreenDark,
+    primary = NokiaScreenDark,
+    onPrimary = NokiaScreenLight,
     secondary = NokiaGray,
     onSecondary = NokiaWhite,
     primaryContainer = NokiaGray,
     onPrimaryContainer = NokiaWhite,
-    background = NokiaBlue,
+    background = NokiaScreenLight,
     onBackground = NokiaGray,
-    surface = NokiaScreenLight,
-    onSurface = NokiaScreenDark,
+    surface = NokiaScreenDark,
+    onSurface = NokiaScreenLight,
 )
 
 private val DarkColorScheme = darkColorScheme(
-    primary = NokiaScreenLight,
-    onPrimary = NokiaScreenDark,
+    primary = NokiaScreenDark,
+    onPrimary = NokiaScreenLight,
     secondary = NokiaGray,
     onSecondary = NokiaWhite,
     primaryContainer = NokiaGray,
     onPrimaryContainer = NokiaWhite,
-    background = NokiaBlue,
+    background = NokiaScreenLight,
     onBackground = NokiaGray,
-    surface = NokiaScreenLight,
-    onSurface = NokiaScreenDark,
+    surface = NokiaScreenDark,
+    onSurface = NokiaScreenLight,
 )
 
 
