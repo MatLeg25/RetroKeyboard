@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.capitalize
@@ -104,7 +105,7 @@ fun CustomKeyboard(
             isVisible = !isVisible
             val typingLetter = selectedChar?.toString() ?: ""
             textWithCursor = if (isVisible) text else text.substring(0, cursorPosition) + typingLetter + "|" + text.substring(cursorPosition, text.length)
-            delay(300)
+            delay(Config.INPUT_ACTIVE_MS/3)
         }
     }
 
@@ -117,7 +118,7 @@ fun CustomKeyboard(
         Column(verticalArrangement = Arrangement.SpaceBetween) {
             //Text box
             TextField(
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier.fillMaxWidth().weight(1f).testTag("TextField"),
                 value = textWithCursor,
                 onValueChange = { text = it },
                 label = {
