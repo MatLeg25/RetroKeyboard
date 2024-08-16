@@ -32,6 +32,9 @@ import org.junit.Rule
 @RunWith(AndroidJUnit4::class)
 class RetroKeyboardInstrumentedTest {
 
+    private val clickDelayTime = 10L
+    private val clickSettlingTime = Config.INPUT_ACTIVE_MS + 10L
+
     @get:Rule
     val composeRule = createComposeRule()
 
@@ -63,71 +66,72 @@ class RetroKeyboardInstrumentedTest {
         composeRule.onNodeWithTag("TextField").assertIsDisplayed()
 
         composeRule.onNodeWithText("4").performClick()
-        composeRule.mainClock.advanceTimeBy(100)
+        composeRule.mainClock.advanceTimeBy(clickDelayTime)
         composeRule.onNodeWithText("4").performClick()
-        composeRule.mainClock.advanceTimeBy(1000)
+        composeRule.mainClock.advanceTimeBy(clickSettlingTime)
 
         composeRule.onNodeWithText("3").performClick()
-        composeRule.mainClock.advanceTimeBy(100)
+        composeRule.mainClock.advanceTimeBy(clickDelayTime)
         composeRule.onNodeWithText("3").performClick()
-        composeRule.mainClock.advanceTimeBy(1000)
+        composeRule.mainClock.advanceTimeBy(clickSettlingTime)
 
         composeRule.onNodeWithText("5").performClick()
-        composeRule.mainClock.advanceTimeBy(100)
+        composeRule.mainClock.advanceTimeBy(clickDelayTime)
         composeRule.onNodeWithText("5").performClick()
-        composeRule.mainClock.advanceTimeBy(100)
+        composeRule.mainClock.advanceTimeBy(clickDelayTime)
         composeRule.onNodeWithText("5").performClick()
-        composeRule.mainClock.advanceTimeBy(1000)
+        composeRule.mainClock.advanceTimeBy(clickSettlingTime)
 
         composeRule.onNodeWithText("5").performClick()
-        composeRule.mainClock.advanceTimeBy(100)
+        composeRule.mainClock.advanceTimeBy(clickDelayTime)
         composeRule.onNodeWithText("5").performClick()
-        composeRule.mainClock.advanceTimeBy(100)
+        composeRule.mainClock.advanceTimeBy(clickDelayTime)
         composeRule.onNodeWithText("5").performClick()
-        composeRule.mainClock.advanceTimeBy(1000)
+        composeRule.mainClock.advanceTimeBy(clickSettlingTime)
 
         composeRule.onNodeWithText("6").performClick()
-        composeRule.mainClock.advanceTimeBy(100)
+        composeRule.mainClock.advanceTimeBy(clickDelayTime)
         composeRule.onNodeWithText("6").performClick()
-        composeRule.mainClock.advanceTimeBy(100)
+        composeRule.mainClock.advanceTimeBy(clickDelayTime)
         composeRule.onNodeWithText("6").performClick()
-        composeRule.mainClock.advanceTimeBy(1000)
+        composeRule.mainClock.advanceTimeBy(clickSettlingTime)
 
         composeRule.onNodeWithText("0").performClick()
-        composeRule.mainClock.advanceTimeBy(1000)
+        composeRule.mainClock.advanceTimeBy(clickSettlingTime)
 
         composeRule.onNodeWithText("9").performClick()
-        composeRule.mainClock.advanceTimeBy(1000)
+        composeRule.mainClock.advanceTimeBy(clickSettlingTime)
 
         composeRule.onNodeWithText("6").performClick()
-        composeRule.mainClock.advanceTimeBy(100)
+        composeRule.mainClock.advanceTimeBy(clickDelayTime)
         composeRule.onNodeWithText("6").performClick()
-        composeRule.mainClock.advanceTimeBy(100)
+        composeRule.mainClock.advanceTimeBy(clickDelayTime)
         composeRule.onNodeWithText("6").performClick()
-        composeRule.mainClock.advanceTimeBy(1000)
+        composeRule.mainClock.advanceTimeBy(clickSettlingTime)
 
         composeRule.onNodeWithText("7").performClick()
-        composeRule.mainClock.advanceTimeBy(100)
+        composeRule.mainClock.advanceTimeBy(clickDelayTime)
         composeRule.onNodeWithText("7").performClick()
-        composeRule.mainClock.advanceTimeBy(100)
+        composeRule.mainClock.advanceTimeBy(clickDelayTime)
         composeRule.onNodeWithText("7").performClick()
-        composeRule.mainClock.advanceTimeBy(1000)
+        composeRule.mainClock.advanceTimeBy(clickSettlingTime)
 
         composeRule.onNodeWithText("5").performClick()
-        composeRule.mainClock.advanceTimeBy(100)
+        composeRule.mainClock.advanceTimeBy(clickDelayTime)
         composeRule.onNodeWithText("5").performClick()
-        composeRule.mainClock.advanceTimeBy(100)
+        composeRule.mainClock.advanceTimeBy(clickDelayTime)
         composeRule.onNodeWithText("5").performClick()
-        composeRule.mainClock.advanceTimeBy(1000)
+        composeRule.mainClock.advanceTimeBy(clickSettlingTime)
 
         composeRule.onNodeWithText("3").performClick()
-        composeRule.mainClock.advanceTimeBy(1000)
+        composeRule.mainClock.advanceTimeBy(clickSettlingTime)
 
         for (i in 1..18) {
             composeRule.onNodeWithText("*").performClick()
-            composeRule.mainClock.advanceTimeBy(100)
+            composeRule.mainClock.advanceTimeBy(clickDelayTime)
         }
-        composeRule.mainClock.advanceTimeBy(3000)
+
+        composeRule.mainClock.advanceTimeBy(clickSettlingTime * 2)
 
         val text = "Hello world!"
         val textWithCursor = "$text|"
