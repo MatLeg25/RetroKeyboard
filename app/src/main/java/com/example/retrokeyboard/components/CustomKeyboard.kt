@@ -1,5 +1,6 @@
 package com.example.retrokeyboard.components
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -85,6 +87,17 @@ fun CustomKeyboard(
 
     var isVisible by remember { mutableStateOf(true) }
     var textWithCursor by remember { mutableStateOf(text) }
+
+    //IMPROVE ME: find better way to deal with empty text (jumping label issue)
+    val textColor by animateColorAsState(
+        targetValue = if (text.isEmpty()) {
+            textWithCursor = "|"
+            if (isVisible) NokiaScreenDark else Color.Transparent
+        } else NokiaScreenDark,
+        label = ""
+    )
+
+
     LaunchedEffect(Unit) {
         while (true) {
             isVisible = !isVisible
@@ -118,9 +131,9 @@ fun CustomKeyboard(
                 enabled = false,
                 textStyle = TextStyle.Default.copy(fontFamily = Config.fontNokia3310, fontSize = 16.sp),
                 colors = TextFieldDefaults.colors(
-                    focusedTextColor = NokiaScreenDark,
-                    unfocusedTextColor = NokiaScreenDark,
-                    disabledTextColor = NokiaScreenDark,
+                    focusedTextColor = textColor,
+                    unfocusedTextColor = textColor,
+                    disabledTextColor = textColor,
                     focusedContainerColor = NokiaScreenLight,
                     unfocusedContainerColor = NokiaScreenLight,
                     disabledContainerColor = NokiaScreenLight,
