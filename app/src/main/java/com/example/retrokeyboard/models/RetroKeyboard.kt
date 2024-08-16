@@ -32,7 +32,7 @@ class RetroKeyboard(initMode: KeyboardMode = KeyboardMode.SENTENCE_CASE): Keyboa
     private val row4 = listOf(
         Key(symbol = '*', chars = SPECIAL_CHARACTERS),
         Key(symbol = '0', chars = listOf('˽')),
-        Key(symbol = '#', chars = listOf('#')),
+        Key(symbol = '#', chars = listOf('⇧')),
     )
 
     override fun getChars(): Map<Int, List<Key>> {
@@ -46,6 +46,7 @@ class RetroKeyboard(initMode: KeyboardMode = KeyboardMode.SENTENCE_CASE): Keyboa
             return null
         }
         if (mode == KeyboardMode.NUMBER) return key.symbol
+        if (key.symbol == '0') return ' '
         val chars = key.chars
         val nextChar = if (char == null) chars.first()
         else {

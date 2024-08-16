@@ -6,8 +6,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertTextContains
-import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -131,7 +129,7 @@ class RetroKeyboardInstrumentedTest {
         }
         composeRule.mainClock.advanceTimeBy(3000)
 
-        val text = "Hello˽world!"
+        val text = "Hello world!"
         val textWithCursor = "$text|"
         val textUi = composeRule.onNodeWithTag("TextField").fetchSemanticsNode().config[SemanticsProperties.EditableText].text
 
