@@ -91,7 +91,8 @@ fun CustomKeyboard(
     //IMPROVE ME: find better way to deal with empty text (jumping label issue)
     val textColor by animateColorAsState(
         targetValue = if (text.isEmpty()) {
-            textWithCursor = "|"
+            val typingLetter = selectedChar?.toString() ?: ""
+            textWithCursor = "$typingLetter|"
             if (isVisible) NokiaScreenDark else Color.Transparent
         } else NokiaScreenDark,
         label = ""
@@ -101,8 +102,9 @@ fun CustomKeyboard(
     LaunchedEffect(Unit) {
         while (true) {
             isVisible = !isVisible
-            textWithCursor = if (isVisible) text else text.substring(0, cursorPosition) + "|" + text.substring(cursorPosition, text.length)
-            delay(500)
+            val typingLetter = selectedChar?.toString() ?: ""
+            textWithCursor = if (isVisible) text else text.substring(0, cursorPosition) + typingLetter + "|" + text.substring(cursorPosition, text.length)
+            delay(300)
         }
     }
 
