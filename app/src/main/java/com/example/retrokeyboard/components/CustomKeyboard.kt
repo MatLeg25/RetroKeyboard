@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -14,6 +15,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +37,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -85,16 +88,28 @@ fun CustomKeyboard(
     }
 
     Box(
-        modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.onBackground),
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.onBackground),
         contentAlignment = Alignment.BottomEnd
     ) {
         Column(verticalArrangement = Arrangement.SpaceBetween) {
             TextField(
-                modifier = Modifier.fillMaxWidth().weight(1f),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 value = text,
                 onValueChange = { text = it },
                 label = {
-                    Text(text = label, fontFamily = Config.fontNokia3310)
+                    Column {
+                        Text(
+                            text = label,
+                            fontFamily = Config.fontNokia3310,
+                            color = NokiaScreenDark
+                        )
+                        HorizontalDivider(Modifier.height(12.dp))
+                    }
+
                 },
                 enabled = false,
                 textStyle = TextStyle.Default.copy(fontFamily = Config.fontNokia3310, fontSize = 16.sp),
@@ -147,12 +162,16 @@ fun CustomKeyboard(
             Column() {
                 keyboard.getChars().forEach { (_, key) ->
                     Row(
-                        modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.secondary),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(MaterialTheme.colorScheme.secondary),
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
                         key.forEach {
                             Key(
-                                modifier = Modifier.width(keyWidthDp).padding(12.dp),
+                                modifier = Modifier
+                                    .width(keyWidthDp)
+                                    .padding(12.dp),
                                 symbol = keyboard.getFormattedSymbol(it),
                                 chars = keyboard.getFormattedChars(it),
                                 selectedChar = selectedChar,
