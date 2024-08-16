@@ -115,6 +115,7 @@ fun CustomKeyboard(
         contentAlignment = Alignment.BottomEnd
     ) {
         Column(verticalArrangement = Arrangement.SpaceBetween) {
+            //Text box
             TextField(
                 modifier = Modifier.fillMaxWidth().weight(1f),
                 value = textWithCursor,
@@ -178,6 +179,7 @@ fun CustomKeyboard(
                     )
                 }
             }
+
             //Keyboard rows
             Column() {
                 keyboard.getChars().forEach { (_, key) ->
