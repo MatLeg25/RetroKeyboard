@@ -1,13 +1,11 @@
 package com.example.retrokeyboard.models
 
-import com.example.retrokeyboard.Config
 import com.example.retrokeyboard.KeyboardContract
 import com.example.retrokeyboard.enums.KeyboardMode
-import com.example.retrokeyboard.extensions.toSentenceCase
 
-class RetroKeyboard(): KeyboardContract {
+class RetroKeyboard(initMode: KeyboardMode = KeyboardMode.SENTENCE_CASE): KeyboardContract {
 
-     override var mode: KeyboardMode = KeyboardMode.LOWERCASE
+     override var mode: KeyboardMode = initMode
          private set
 
     private val SPECIAL_CHARACTERS = listOf(
