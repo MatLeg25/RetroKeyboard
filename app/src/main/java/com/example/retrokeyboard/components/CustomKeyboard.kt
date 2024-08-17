@@ -67,7 +67,7 @@ fun CustomKeyboard(
     val screenWidthDp = configuration.screenWidthDp.dp
     val keyWidthDp = (screenWidthDp / 3)
 
-    var text by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf("hello world") }
     var extraInfoVisible by remember { mutableStateOf(true) }
     var selectedChar: Char? by remember { mutableStateOf(null) }
     var keyboardMode by remember { mutableStateOf(keyboard.mode) }
@@ -184,8 +184,9 @@ fun CustomKeyboard(
                     modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer).border(BorderStroke(0.1.dp, Color.LightGray)),
                     onClick = {
                         if (text.isNotEmpty()) {
-                            text = text.substring(0, text.length - 1)
-                            cursorPosition = (cursorPosition-1).coerceIn(0, text.length)
+                            val position = (cursorPosition-1).coerceIn(0, text.length)
+                            text = text.substring(0, position) + text.substring(cursorPosition, text.length)
+                            cursorPosition = position
                     }
                 }) {
                     Icon(
