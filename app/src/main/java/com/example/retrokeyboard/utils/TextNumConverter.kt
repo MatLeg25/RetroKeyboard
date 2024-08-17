@@ -3,9 +3,15 @@ package com.example.retrokeyboard.utils
 import com.example.retrokeyboard.models.Key
 import com.example.retrokeyboard.models.RetroKeyboard
 
-class TextNumConverter {
 
-    fun textToNumbers(keyboard: RetroKeyboard, text: String): String {
+/**
+ * Text to number sequence converter. Converter works only with base chars, special characters are not included.
+ * [textToNum] - converts given text to number sequence, corresponding to case when user typing text with [RetroKeyboard]
+ * [numToText] - converts back given number sequence to text
+ */
+object TextNumConverter {
+
+    fun textToNum(keyboard: RetroKeyboard, text: String): String {
         var output = ""
 
         //get key and assigned chars in lowercase
@@ -13,13 +19,31 @@ class TextNumConverter {
 
         text.forEachIndexed { index, char ->
             val isLastChar = (index < text.length - 1)
-            output += getConvertedChar(keys, char.lowercaseChar()) + if (isLastChar) " " else ""
+            output += getNumFromChar(keys, char.lowercaseChar()) + if (isLastChar) " " else ""
         }
 
         return output
     }
 
-    private fun getConvertedChar(keys: List<Key>, char: Char): String {
+    fun numToText(keyboard: RetroKeyboard, num: String): String {
+        var output = ""
+
+        if (num.isEmpty()) return ""
+
+        //get key and assigned chars in lowercase
+        val keys = keyboard.getKeypadRows().values.flatten()
+
+        val numbers = num.split(' ')
+        validateNumToTextInput(numbers)
+
+        numbers.forEachIndexed { index, n ->
+            output += getCharFromNum(keys, n)
+        }
+
+        return output
+    }
+
+    private fun getNumFromChar(keys: List<Key>, char: Char): String {
         if (char == ' ') return "0"
         keys.forEach { key ->
             val index = key.chars.indexOf(char)
@@ -29,6 +53,30 @@ class TextNumConverter {
             }
         }
         return char.toString()
+    }
+
+    private fun getCharFromNum(keys: List<Key>, num: String): Char {
+        if (num == "0") return ' '
+        keys.forEach { key ->
+            if (num.contains(key.symbol)) {
+                val index = num.length
+                return key.chars.getOrElse(index - 1) { num.first() }
+            }
+        }
+        return num.first()
+    }
+
+
+    /**
+     * Validate if items of [numbers] collection are build by single number
+     */
+    private fun validateNumToTextInput(numbers: List<String>): Boolean {
+        numbers.forEach { num ->
+            val firstChar = num.first()
+            val firstCharCount = num.count {it == firstChar }
+            if (firstCharCount != num.length) return false
+        }
+        return true
     }
 
 }
