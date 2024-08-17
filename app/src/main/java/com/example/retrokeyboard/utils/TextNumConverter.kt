@@ -7,7 +7,7 @@ import kotlin.jvm.Throws
 
 
 /**
- * Text to number sequence converter. Converter works only with base chars, special characters are not included.
+ * Text to number sequence converter. Converter works only with base chars, special characters are not converted.
  * Letter case is not respected - output is always in lowercase.
  * [textToNum] - converts given text to number sequence, corresponding to case when user typing text with [RetroKeyboard]
  * [numToText] - converts back given number sequence to text
