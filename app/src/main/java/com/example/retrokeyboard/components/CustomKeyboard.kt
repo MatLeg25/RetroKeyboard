@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -34,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -52,6 +54,7 @@ import com.example.retrokeyboard.extensions.copyTextToClipboard
 import com.example.retrokeyboard.models.RetroKeyboard
 import com.example.retrokeyboard.ui.theme.NokiaScreenDark
 import com.example.retrokeyboard.ui.theme.NokiaScreenLight
+import com.example.retrokeyboard.utils.TextNumConverter
 import kotlinx.coroutines.delay
 
 @Composable
@@ -167,7 +170,19 @@ fun CustomKeyboard(
                 horizontalArrangement = Arrangement.Center
             ) {
                 IconButton(
-                    modifier = Modifier.background(Color.Gray),
+                    modifier = Modifier.background(Color.Gray).border(BorderStroke(0.1.dp, Color.LightGray)),
+                    onClick = {
+                        text = ""
+                        cursorPosition = 0
+                    }) {
+                    Icon(
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = stringResource(id = R.string.clear),
+                        tint = MaterialTheme.colorScheme.background
+                    )
+                }
+                IconButton(
+                    modifier = Modifier.background(Color.Gray).border(BorderStroke(0.1.dp, Color.LightGray)),
                     onClick = {
                         if (text.isNotEmpty()) {
                             text = text.substring(0, text.length - 1)
@@ -181,9 +196,7 @@ fun CustomKeyboard(
                     )
                 }
                 IconButton(
-                    modifier = Modifier
-                        .background(Color.LightGray)
-                        .border(BorderStroke(0.1.dp, Color.Gray)),
+                    modifier = Modifier.background(Color.LightGray).border(BorderStroke(0.1.dp, Color.Gray)),
                     onClick = {
                         cursorPosition = (cursorPosition-1).coerceIn(0, text.length)
                 }) {
@@ -194,9 +207,7 @@ fun CustomKeyboard(
                     )
                 }
                 IconButton(
-                    modifier = Modifier
-                        .background(Color.LightGray)
-                        .border(BorderStroke(0.1.dp, Color.Gray)),
+                    modifier = Modifier.background(Color.LightGray).border(BorderStroke(0.1.dp, Color.Gray)),
                     onClick = {
                         cursorPosition = (cursorPosition+1).coerceIn(0, text.length)
                 })  {
@@ -207,9 +218,7 @@ fun CustomKeyboard(
                     )
                 }
                 IconButton(
-                    modifier = Modifier
-                        .background(Color.LightGray)
-                        .border(BorderStroke(0.1.dp, Color.Gray)),
+                    modifier = Modifier.background(Color.LightGray).border(BorderStroke(0.1.dp, Color.Gray)),
                     onClick = {
                         context.copyTextToClipboard(text)
                     }) {
@@ -218,6 +227,24 @@ fun CustomKeyboard(
                         contentDescription = stringResource(id = R.string.copy_to_clipboard),
                         tint = MaterialTheme.colorScheme.background
                     )
+                }
+                IconButton(
+                    modifier = Modifier.background(Color.Gray).border(BorderStroke(0.1.dp, Color.LightGray)),
+                    onClick = {
+                        text = TextNumConverter.textToNum(keyboard, text)
+                        cursorPosition = text.length
+                    }
+                ) {
+                    Text(modifier = Modifier.rotate(-10f) ,text = "b⮕22", fontSize = 10.sp, color = Color.LightGray)
+                }
+                IconButton(
+                    modifier = Modifier.background(Color.Gray).border(BorderStroke(0.1.dp, Color.LightGray)),
+                    onClick = {
+                        text = TextNumConverter.numToText(keyboard, text)
+                        cursorPosition = text.length
+                    }
+                ) {
+                    Text(modifier = Modifier.rotate(-10f) ,text = "22⮕b", fontSize = 10.sp, color = Color.LightGray)
                 }
             }
 

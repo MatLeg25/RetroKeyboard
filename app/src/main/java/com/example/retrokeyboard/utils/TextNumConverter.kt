@@ -1,5 +1,6 @@
 package com.example.retrokeyboard.utils
 
+import com.example.retrokeyboard.KeyboardContract
 import com.example.retrokeyboard.models.Key
 import com.example.retrokeyboard.models.RetroKeyboard
 import kotlin.jvm.Throws
@@ -13,7 +14,7 @@ import kotlin.jvm.Throws
  */
 object TextNumConverter {
 
-    fun textToNum(keyboard: RetroKeyboard, text: String): String {
+    fun textToNum(keyboard: KeyboardContract, text: String): String {
         var output = ""
 
         //get key and assigned chars in lowercase
@@ -28,7 +29,7 @@ object TextNumConverter {
     }
 
     @Throws(IllegalArgumentException::class)
-    fun numToText(keyboard: RetroKeyboard, num: String): String {
+    fun numToText(keyboard: KeyboardContract, num: String): String {
         var output = ""
 
         if (num.isEmpty()) return ""
