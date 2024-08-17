@@ -61,7 +61,7 @@ fun CustomKeyboard(
     val keyWidthDp = (screenWidthDp / 3)
 
     var text by remember { mutableStateOf("") }
-    var extraInfo by remember { mutableStateOf(false) }
+    var extraInfoVisible by remember { mutableStateOf(true) }
     var selectedChar: Char? by remember { mutableStateOf(null) }
     var keyboardMode by remember { mutableStateOf(keyboard.mode) }
     var cursorPosition by remember { mutableIntStateOf(text.length) }
@@ -73,7 +73,10 @@ fun CustomKeyboard(
             KeyboardMode.UPPERCASE -> Config.KEYBOARD_TEXT_MODE_LABEL.uppercase()
             KeyboardMode.NUMBER -> Config.KEYBOARD_NUM_MODE_LABEL
         }
-        if (extraInfo) keyboardCase + "\t\t\t     [cursor: $cursorPosition, text length: ${text.length}]"
+        if (extraInfoVisible) {
+            val extraInfo = stringResource(id = R.string.extra_info_cursor_X_text_Y, cursorPosition, text.length)
+            keyboardCase + extraInfo
+        }
         else keyboardCase
     }
 
@@ -125,7 +128,10 @@ fun CustomKeyboard(
         Column(verticalArrangement = Arrangement.SpaceBetween) {
             //Text box
             TextField(
-                modifier = Modifier.fillMaxWidth().weight(1f).testTag("TextField"),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .testTag("TextField"),
                 value = textWithCursor,
                 onValueChange = { text = it },
                 label = {
@@ -171,7 +177,9 @@ fun CustomKeyboard(
                     )
                 }
                 IconButton(
-                    modifier = Modifier.background(Color.LightGray).border(BorderStroke(0.1.dp, Color.Gray)),
+                    modifier = Modifier
+                        .background(Color.LightGray)
+                        .border(BorderStroke(0.1.dp, Color.Gray)),
                     onClick = {
                         cursorPosition = (cursorPosition-1).coerceIn(0, text.length)
                 }) {
@@ -182,7 +190,9 @@ fun CustomKeyboard(
                     )
                 }
                 IconButton(
-                    modifier = Modifier.background(Color.LightGray).border(BorderStroke(0.1.dp, Color.Gray)),
+                    modifier = Modifier
+                        .background(Color.LightGray)
+                        .border(BorderStroke(0.1.dp, Color.Gray)),
                     onClick = {
                         cursorPosition = (cursorPosition+1).coerceIn(0, text.length)
                 })  {

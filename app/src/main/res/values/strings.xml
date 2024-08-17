@@ -3,4 +3,5 @@
     <string name="move_cursor_left">Move cursor left</string>
     <string name="move_cursor_right">Move cursor right</string>
     <string name="backspace">Backspace</string>
+    <string name="extra_info_cursor_X_text_Y">\t\t\t\t\t\t [cursor: %1$s, text: %2$s]</string>
 </resources>
