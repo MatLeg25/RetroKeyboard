@@ -170,7 +170,7 @@ fun CustomKeyboard(
                 horizontalArrangement = Arrangement.Center
             ) {
                 IconButton(
-                    modifier = Modifier.background(Color.DarkGray).border(BorderStroke(0.1.dp, Color.LightGray)),
+                    modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer).border(BorderStroke(0.1.dp, Color.LightGray)),
                     onClick = {
                         text = ""
                         cursorPosition = 0
@@ -181,7 +181,7 @@ fun CustomKeyboard(
                     )
                 }
                 IconButton(
-                    modifier = Modifier.background(Color.DarkGray).border(BorderStroke(0.1.dp, Color.LightGray)),
+                    modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer).border(BorderStroke(0.1.dp, Color.LightGray)),
                     onClick = {
                         if (text.isNotEmpty()) {
                             text = text.substring(0, text.length - 1)
@@ -194,7 +194,7 @@ fun CustomKeyboard(
                     )
                 }
                 IconButton(
-                    modifier = Modifier.background(Color.Gray).border(BorderStroke(0.1.dp, Color.DarkGray)),
+                    modifier = Modifier.background(MaterialTheme.colorScheme.secondaryContainer).border(BorderStroke(0.1.dp, Color.DarkGray)),
                     onClick = {
                         cursorPosition = (cursorPosition-1).coerceIn(0, text.length)
                 }) {
@@ -204,7 +204,7 @@ fun CustomKeyboard(
                     )
                 }
                 IconButton(
-                    modifier = Modifier.background(Color.Gray).border(BorderStroke(0.1.dp, Color.DarkGray)),
+                    modifier = Modifier.background(MaterialTheme.colorScheme.secondaryContainer).border(BorderStroke(0.1.dp, Color.DarkGray)),
                     onClick = {
                         cursorPosition = (cursorPosition+1).coerceIn(0, text.length)
                 })  {
@@ -214,7 +214,7 @@ fun CustomKeyboard(
                     )
                 }
                 IconButton(
-                    modifier = Modifier.background(Color.Gray).border(BorderStroke(0.1.dp, Color.DarkGray)),
+                    modifier = Modifier.background(MaterialTheme.colorScheme.secondaryContainer).border(BorderStroke(0.1.dp, Color.DarkGray)),
                     onClick = {
                         context.copyTextToClipboard(text)
                     }) {
@@ -224,16 +224,16 @@ fun CustomKeyboard(
                     )
                 }
                 IconButton(
-                    modifier = Modifier.background(Color.DarkGray).border(BorderStroke(0.1.dp, Color.LightGray)),
+                    modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer).border(BorderStroke(0.1.dp, Color.LightGray)),
                     onClick = {
                         text = TextNumConverter.textToNum(keyboard, text)
                         cursorPosition = text.length
                     }
                 ) {
-                    Text(modifier = Modifier.rotate(-10f) ,text = "b⮕22", fontSize = 10.sp, color = Color.LightGray)
+                    Text(modifier = Modifier.rotate(-10f) ,text = "b⮕22", fontSize = 10.sp)
                 }
                 IconButton(
-                    modifier = Modifier.background(Color.DarkGray).border(BorderStroke(0.1.dp, Color.LightGray)),
+                    modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer).border(BorderStroke(0.1.dp, Color.LightGray)),
                     onClick = {
                         try {
                             text = TextNumConverter.numToText(keyboard, text)
@@ -246,7 +246,7 @@ fun CustomKeyboard(
 
                     }
                 ) {
-                    Text(modifier = Modifier.rotate(-10f) ,text = "22⮕b", fontSize = 10.sp, color = Color.LightGray)
+                    Text(modifier = Modifier.rotate(-10f) ,text = "22⮕b", fontSize = 10.sp)
                 }
             }
 
