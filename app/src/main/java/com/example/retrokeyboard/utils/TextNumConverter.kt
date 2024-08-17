@@ -2,6 +2,7 @@ package com.example.retrokeyboard.utils
 
 import com.example.retrokeyboard.models.Key
 import com.example.retrokeyboard.models.RetroKeyboard
+import kotlin.jvm.Throws
 
 
 /**
@@ -26,6 +27,7 @@ object TextNumConverter {
         return output
     }
 
+    @Throws(IllegalArgumentException::class)
     fun numToText(keyboard: RetroKeyboard, num: String): String {
         var output = ""
 
@@ -33,9 +35,10 @@ object TextNumConverter {
 
         //get key and assigned chars in lowercase
         val keys = keyboard.getKeypadRows().values.flatten()
-
         val numbers = num.split(' ')
-        validateNumToTextInput(numbers)
+
+        val inputValidation = validateNumToTextInput(numbers)
+        if (!inputValidation) throw IllegalArgumentException("Incorrect data input!")
 
         numbers.forEachIndexed { index, n ->
             output += getCharFromNum(keys, n)

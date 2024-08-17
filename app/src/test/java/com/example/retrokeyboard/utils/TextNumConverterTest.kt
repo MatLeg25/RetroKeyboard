@@ -3,6 +3,7 @@ package com.example.retrokeyboard.utils
 import com.example.retrokeyboard.enums.KeyboardMode
 import com.example.retrokeyboard.models.RetroKeyboard
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertThrows
 import org.junit.Before
 import org.junit.Test
 
@@ -46,6 +47,12 @@ class TextNumConverterTest {
         val expected = "hello world!"
         val result = converter.numToText(keyboard, input)
         assertEquals(expected, result)
+    }
+
+    @Test
+    fun `numToText return IllegalArgumentException for incorrect input data`() {
+        val input = "11 12 3"
+        assertThrows(IllegalArgumentException::class.java) { converter.numToText(keyboard, input) }
     }
 
 }
