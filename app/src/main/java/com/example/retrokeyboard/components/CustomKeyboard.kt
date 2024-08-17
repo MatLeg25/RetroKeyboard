@@ -240,8 +240,15 @@ fun CustomKeyboard(
                 IconButton(
                     modifier = Modifier.background(Color.Gray).border(BorderStroke(0.1.dp, Color.LightGray)),
                     onClick = {
-                        text = TextNumConverter.numToText(keyboard, text)
-                        cursorPosition = text.length
+                        try {
+                            text = TextNumConverter.numToText(keyboard, text)
+                            cursorPosition = text.length
+                        } catch (e: IllegalArgumentException) {
+                            //todo improve error handling - update UI to inform user about invalid input
+                            text = "?".repeat(text.length)
+                            cursorPosition = text.length
+                        }
+
                     }
                 ) {
                     Text(modifier = Modifier.rotate(-10f) ,text = "22⮕b", fontSize = 10.sp, color = Color.LightGray)

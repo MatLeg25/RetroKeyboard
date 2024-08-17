@@ -39,7 +39,9 @@ object TextNumConverter {
         val numbers = num.split(' ')
 
         val inputValidation = validateNumToTextInput(numbers)
-        if (!inputValidation) throw IllegalArgumentException("Incorrect data input!")
+        if (!inputValidation) {
+            throw IllegalArgumentException("Incorrect data input!")
+        }
 
         numbers.forEachIndexed { index, n ->
             output += getCharFromNum(keys, n)
