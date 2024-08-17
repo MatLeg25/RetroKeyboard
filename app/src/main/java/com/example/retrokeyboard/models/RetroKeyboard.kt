@@ -40,7 +40,6 @@ class RetroKeyboard(initMode: KeyboardMode = KeyboardMode.SENTENCE_CASE): Keyboa
     }
 
     override fun getNextChar(key: Key, char: Char?, onModeChanged: (keyboardMode: KeyboardMode) -> Unit): Char? {
-        if (mode == KeyboardMode.NUMBER) return key.symbol
 
         when (key.symbol) {
             '#' -> {
@@ -51,6 +50,8 @@ class RetroKeyboard(initMode: KeyboardMode = KeyboardMode.SENTENCE_CASE): Keyboa
             '0' -> return ' '
             '1'-> return '1'
         }
+
+        if (mode == KeyboardMode.NUMBER) return key.symbol
 
         val chars = key.chars
         val nextChar = if (char == null) chars.first()
