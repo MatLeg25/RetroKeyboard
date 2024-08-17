@@ -4,7 +4,7 @@
 
 The aim of the project was to build a keyboard using JetpackCompose, based on the Nokia 3310 writing system.
 
-## Video:
+## Video [music: https://www.youtube.com/watch?v=CnR7hNs8XlQ]:
 [retro_keyboard_demo.webm](https://github.com/user-attachments/assets/aeed2d38-4122-4270-b748-dfceeecb4e9b)
 
 ## Getting Started
