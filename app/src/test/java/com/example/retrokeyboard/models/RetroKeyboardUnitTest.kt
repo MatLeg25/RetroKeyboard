@@ -1,8 +1,6 @@
-package com.example.retrokeyboard
+package com.example.retrokeyboard.models
 
 import com.example.retrokeyboard.enums.KeyboardMode
-import com.example.retrokeyboard.models.Key
-import com.example.retrokeyboard.models.RetroKeyboard
 import org.junit.Test
 import org.junit.Assert.*
 import org.junit.Before
