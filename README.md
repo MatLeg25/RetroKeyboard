@@ -15,7 +15,7 @@ The aim of the project was to build a keyboard using JetpackCompose, based on th
 
 ## How to use [1.]
 
-Writing: 
+### Writing: 
 
 >Writing with the keypad is easy and fun. <br />
 >Press a key repeatedly until the letter is shown. <br />
@@ -24,15 +24,22 @@ Writing:
 >To switch between character cases, press # repeatedly. <br />
 >To type in a number, press and hold a number key. <br />
 
-Support actions: (from left to right):
- - Clear text
- - Backspace (remove char before cursor)
- - Move cursor left
- - Move cursor right
-   
- - Last two options are related with simple Text to number sequence converter. (Converter works only with base chars, special characters are not converted. Letter case is not respected - output is always in lowercase.)
- - Convert text to num - to converts given text to number sequence, corresponding to case when user typing text with keyboard
- - Convert num to text - converts back given number sequence to text (lowercase)
+### Support action buttons: (from left to right):
+    1. Clear text
+    2. Backspace (remove char before cursor)
+    3. Move cursor left
+    4. Move cursor right
+    5. Copy text to clipboard
+   ![image](https://github.com/user-attachments/assets/faef32f3-51ac-47bc-96b1-0b5f9b4f1a71)
+
+ + Last two buttons are related with simple Text to number sequence converter:
+   >     6. Convert text to num - convert given text to number sequence, corresponding to keypad numbers clicked by user when typing text
+   >     7. Convert num to text - convert back given number sequence to text (lowercase)
+
+### Text to number sequence converter:
+![image](https://github.com/user-attachments/assets/f233a076-f153-4bd0-81fa-ba9db8b78212)
+*Converter works only with base chars, special characters are not converted. Letter case is not respected - output is always in lowercase.
+
 
 ## Tech stack:
 - Android, JetpackCompose
