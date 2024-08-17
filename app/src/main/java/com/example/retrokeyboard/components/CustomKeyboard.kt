@@ -67,7 +67,7 @@ fun CustomKeyboard(
     val screenWidthDp = configuration.screenWidthDp.dp
     val keyWidthDp = (screenWidthDp / 3)
 
-    var text by remember { mutableStateOf("hello world") }
+    var text by remember { mutableStateOf("") }
     var extraInfoVisible by remember { mutableStateOf(true) }
     var selectedChar: Char? by remember { mutableStateOf(null) }
     var keyboardMode by remember { mutableStateOf(keyboard.mode) }
