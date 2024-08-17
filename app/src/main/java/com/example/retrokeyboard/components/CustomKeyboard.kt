@@ -223,7 +223,7 @@ fun CustomKeyboard(
 
             //Keyboard rows
             Column() {
-                keyboard.getChars().forEach { (_, key) ->
+                keyboard.getKeypadRows().forEach { (_, key) ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()

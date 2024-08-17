@@ -46,8 +46,8 @@ class RetroKeyboardUnitTest {
     }
 
     @Test
-    fun `getChars return chars map`() {
-        assertNotEquals(keyboard.getChars(), emptyMap<Int, List<Key>>())
+    fun `getKeypadRows return chars map`() {
+        assertNotEquals(keyboard.getKeypadRows(), emptyMap<Int, List<Key>>())
     }
 
     @Test

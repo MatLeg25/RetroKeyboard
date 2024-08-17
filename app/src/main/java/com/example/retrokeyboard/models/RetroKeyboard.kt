@@ -35,7 +35,7 @@ class RetroKeyboard(initMode: KeyboardMode = KeyboardMode.SENTENCE_CASE): Keyboa
         Key(symbol = '#', chars = listOf('⇧')),
     )
 
-    override fun getChars(): Map<Int, List<Key>> {
+    override fun getKeypadRows(): Map<Int, List<Key>> {
         return mapOf(1 to row1, 2 to row2, 3 to row3, 4 to row4)
     }
 
