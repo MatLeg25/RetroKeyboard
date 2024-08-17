@@ -15,7 +15,7 @@ class RetroKeyboard(initMode: KeyboardMode = KeyboardMode.SENTENCE_CASE): Keyboa
     )
 
     private val row1 = listOf(
-        Key(symbol = '1', chars = listOf('@')),
+        Key(symbol = '1', chars = listOf('⚯')),
         Key(symbol = '2', chars = listOf('a','b','c')),
         Key(symbol = '3', chars = listOf('d','e','f')),
     )
