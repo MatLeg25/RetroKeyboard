@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -35,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -46,6 +48,7 @@ import com.example.retrokeyboard.Config
 import com.example.retrokeyboard.KeyboardContract
 import com.example.retrokeyboard.R
 import com.example.retrokeyboard.enums.KeyboardMode
+import com.example.retrokeyboard.extensions.copyTextToClipboard
 import com.example.retrokeyboard.models.RetroKeyboard
 import com.example.retrokeyboard.ui.theme.NokiaScreenDark
 import com.example.retrokeyboard.ui.theme.NokiaScreenLight
@@ -56,6 +59,7 @@ fun CustomKeyboard(
     modifier: Modifier = Modifier,
     keyboard: KeyboardContract = RetroKeyboard()
 ) {
+    val context = LocalContext.current
     val configuration = LocalConfiguration.current
     val screenWidthDp = configuration.screenWidthDp.dp
     val keyWidthDp = (screenWidthDp / 3)
@@ -199,6 +203,19 @@ fun CustomKeyboard(
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = stringResource(id = R.string.move_cursor_right),
+                        tint = MaterialTheme.colorScheme.background
+                    )
+                }
+                IconButton(
+                    modifier = Modifier
+                        .background(Color.LightGray)
+                        .border(BorderStroke(0.1.dp, Color.Gray)),
+                    onClick = {
+                        context.copyTextToClipboard(text)
+                    }) {
+                    Icon(
+                        imageVector = Icons.Default.MailOutline,
+                        contentDescription = stringResource(id = R.string.copy_to_clipboard),
                         tint = MaterialTheme.colorScheme.background
                     )
                 }
