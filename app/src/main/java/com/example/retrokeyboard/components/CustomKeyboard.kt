@@ -1,7 +1,9 @@
 package com.example.retrokeyboard.components
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -59,15 +61,20 @@ fun CustomKeyboard(
     val keyWidthDp = (screenWidthDp / 3)
 
     var text by remember { mutableStateOf("") }
+    var extraInfo by remember { mutableStateOf(false) }
     var selectedChar: Char? by remember { mutableStateOf(null) }
     var keyboardMode by remember { mutableStateOf(keyboard.mode) }
     var cursorPosition by remember { mutableIntStateOf(text.length) }
 
-    val label = when (keyboardMode) {
-        KeyboardMode.SENTENCE_CASE -> Config.KEYBOARD_TEXT_MODE_LABEL.capitalize(Locale.current)
-        KeyboardMode.LOWERCASE -> Config.KEYBOARD_TEXT_MODE_LABEL.lowercase()
-        KeyboardMode.UPPERCASE -> Config.KEYBOARD_TEXT_MODE_LABEL.uppercase()
-        KeyboardMode.NUMBER -> Config.KEYBOARD_NUM_MODE_LABEL
+    val label = run {
+        val keyboardCase = when (keyboardMode) {
+            KeyboardMode.SENTENCE_CASE -> Config.KEYBOARD_TEXT_MODE_LABEL.capitalize(Locale.current)
+            KeyboardMode.LOWERCASE -> Config.KEYBOARD_TEXT_MODE_LABEL.lowercase()
+            KeyboardMode.UPPERCASE -> Config.KEYBOARD_TEXT_MODE_LABEL.uppercase()
+            KeyboardMode.NUMBER -> Config.KEYBOARD_NUM_MODE_LABEL
+        }
+        if (extraInfo) keyboardCase + "\t\t\t     [cursor: $cursorPosition, text length: ${text.length}]"
+        else keyboardCase
     }
 
     fun updateSelectedChar() {
@@ -149,10 +156,12 @@ fun CustomKeyboard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                IconButton(onClick = {
-                    if (text.isNotEmpty()) {
-                        text = text.substring(0, text.length - 1)
-                        cursorPosition = (cursorPosition-1).coerceIn(0, text.length)
+                IconButton(
+                    modifier = Modifier.background(Color.Gray),
+                    onClick = {
+                        if (text.isNotEmpty()) {
+                            text = text.substring(0, text.length - 1)
+                            cursorPosition = (cursorPosition-1).coerceIn(0, text.length)
                     }
                 }) {
                     Icon(
@@ -161,8 +170,10 @@ fun CustomKeyboard(
                         tint = MaterialTheme.colorScheme.background
                     )
                 }
-                IconButton(onClick = {
-                    cursorPosition = (cursorPosition-1).coerceIn(0, text.length)
+                IconButton(
+                    modifier = Modifier.background(Color.LightGray).border(BorderStroke(0.1.dp, Color.Gray)),
+                    onClick = {
+                        cursorPosition = (cursorPosition-1).coerceIn(0, text.length)
                 }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
@@ -170,8 +181,10 @@ fun CustomKeyboard(
                         tint = MaterialTheme.colorScheme.background
                     )
                 }
-                IconButton(onClick = {
-                    cursorPosition = (cursorPosition+1).coerceIn(0, text.length)
+                IconButton(
+                    modifier = Modifier.background(Color.LightGray).border(BorderStroke(0.1.dp, Color.Gray)),
+                    onClick = {
+                        cursorPosition = (cursorPosition+1).coerceIn(0, text.length)
                 })  {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
