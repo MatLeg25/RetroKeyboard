@@ -1,6 +1,5 @@
 # RetroKeyboard
-![image](https://github.com/user-attachments/assets/66f88236-2adf-4b64-8d28-ee656bd65869)
-
+![image](https://github.com/user-attachments/assets/c1e4d8f3-01f8-40c5-b07a-57addf0a6fa3)
 
 The aim of the project was to build a keyboard using JetpackCompose, based on the Nokia 3310 writing system.
 
