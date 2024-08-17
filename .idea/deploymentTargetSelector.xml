@@ -13,9 +13,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="RetroKeyboardInstrumentedTest">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="screen_correctly_display_hello_world_text()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
