@@ -8,4 +8,5 @@
     <string name="extra_info_cursor_X_text_Y">\t\t\t\t\t\t [cursor: %1$s, text: %2$s]</string>
     <string name="convert_text_to_num">Convert text to num</string>
     <string name="convert_num_to_text">Convert num to text</string>
+    <string name="copied_to_clipboard">Copied to clipboard.</string>
 </resources>
