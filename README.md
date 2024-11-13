@@ -61,4 +61,4 @@ The app is not officially published in Google Play Store. If you want to check i
    1. Nokia 3310 user guide https://www.hmd.com/en_int/support/api/pdf/nokia-3310-user-guide
    2. App icon https://icons8.com/icon/41083/nokia-3310
    3. Font https://www.dafont.com/nokia-cellphone.font
-   4. Video music: https://www.youtube.com/watch?v=CnR7hNs8XlQ
+   4. Music used in the demo video: https://www.youtube.com/watch?v=CnR7hNs8XlQ
