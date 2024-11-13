@@ -43,7 +43,7 @@ The aim of the project was to build a keyboard using JetpackCompose, based on th
 ## Check it out!
 The app is not officially published in Google Play Store. If you want to check it out, you can do it using one of the following ways:
 
-1) Download directly on Android device from: <b>[RetroKeyboard v1.0](link)</b> <br />
+1) Download directly on Android device from: <b>[RetroKeyboard v1.0](https://github.com/MatLeg25/RetroKeyboard/releases/download/v1.0/RetroKeyboard_v1.0.apk)</b> <br />
 <i>You may need to enable Unknown Sources in your device settings to install apps outside of the Google Play Store.</i>  [[Allow Unknown Sources on Android](https://www.wikihow.com/Allow-Apps-from-Unknown-Sources-on-Android)]
 
 2) Build the app on your computer:
